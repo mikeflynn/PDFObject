@@ -18,6 +18,7 @@ var PDFObject = function (obj){
         width = obj.width || "100%",
         height = obj.height || "100%",
         pdfOpenParams = obj.pdfOpenParams,
+        urlencode = obj.urlencode || true,
         url,
         pluginTypeFound,
 
@@ -232,7 +233,11 @@ var PDFObject = function (obj){
 
     //The hash (#) prevents odd behavior in Windows
     //Append optional Adobe params for opening document
-    url = encodeURI(obj.url) + "#" + buildQueryString(pdfOpenParams);
+    url = obj.url;
+    if(obj.urlencode) {
+        url = encodeURIComponent(obj.url);
+    }
+    url += "#" + buildQueryString(pdfOpenParams);
     pluginTypeFound = pluginFound();
 
     this.get = function(prop){ return get(prop); };
